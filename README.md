@@ -1,62 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## VueJS Installation
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Untuk penerangan. PHP adalah `Backend` dan kerangkanya ialah `Laravel`. Javascript adalah Frontend dan kerangkanya ialah `VueJS`.
 
-## About Laravel
+Untuk `VueJS Framework`, disarankan menginstall `VueJS DevTools` di `Chrome Extension`.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Sesudah install Laravel sampai ke copy .env file, dan generate key.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Sambung ini untuk install VueJS
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Install package depedency UI daripada Laravel - Untuk Laravel 5.8 ke atas, ia telah dipisahkan daripada library Laravel. Jadi harus menginstall secara berasingan. Ini kerana terdapat ramai Frontend Developer menggunakan framework lain seperti Svelte, Angular, dan React.
+```sh
+$ composer require laravel/ui
+```
 
-## Learning Laravel
+2. Generate VueJS Scaffolding - Ia akan menjana file `ExampleComponent.vue` di `resources/js/components` dan menjana beberapa baris kod Javascript di `resources/js/app.js` untuk VueJS.
+```sh
+$ php artisan ui vue
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Install NPM - Ia berfungsi seperti Composer, menginstall package dependency lalu mencipta folder `node_modules`. Di dalam folder ini terdapat banyak library yang dicipta oleh developer seluruh dunia.
+```sh
+$ npm install
+```
+Jika terdapat ralat semasa install, sila kenal pasti ralat dengan jelas. Kadang-kadang ia adalah ralat daripada `node` version atau harus menginstall package lain terdahulu.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Compile script - Secara tetapan yang telah dibuat di `resources/js/components/app.js`. Iaitu baris kod di bawah. Kemudian ia akan menggunakan `Laravel Mix` untuk compile script ini.
+`Laravel Mix` akan membaca `webpack.mix.js`, kemudian ia akan menjana file di `public/js/app.js`
 
-## Laravel Sponsors
+`webpack.mix.js`
+```js
+const mix = require('laravel-mix');
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel application. By default, we are compiling the Sass
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
 
-### Premium Partners
+mix.js('resources/js/app.js', 'public/js') // Ia akan generate app.js di folder ini
+    .vue()
+    .sass('resources/sass/app.scss', 'public/css');
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+`resources/js/app.js`
+```js
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
-## Contributing
+require('./bootstrap');
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+window.Vue = require('vue').default; 
 
-## Code of Conduct
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+// Ini akan register Vue Component di resources/js/components/ExampleComponent
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-## Security Vulnerabilities
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+// Ini akan attach di welcome.blade.php
+const app = new Vue({
+    el: '#app',
+});
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Kemudian run compiler dalam mode development.
+```sh
+$ npm run dev
+```
+Run ini boleh juga, ia akan stay active kemudian apa perubahan di `app.js` dan file berkaitan dengan `.vue`, ia akan compile secara automatik.
+```sh
+$ npm run watch
+```
+5.	Di blade master layout seperti master, app, atau welcome. Harus letak template sebegini untuk memaparkan komponen vue dan script daripada `public/js/app.js`
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	# Attach di sini
+	<div id="app">
+		<example-component></example-component>
+	</div>
+
+	# Untuk load file yang telah di compile public/js/app.js
+	<script src="{{ asset('js/app.js') }}"></script>
+</body>
+</html>
+```
+
+6. Sila lihat di browser anda samada ia berjaya dipaparkan atau tidak, jika tidak. Sila debug dengan menggunakan `Chrome Developer Tools` untuk melihat ralat-ralat itu.
+
